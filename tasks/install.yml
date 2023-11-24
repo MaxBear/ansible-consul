@@ -1,6 +1,19 @@
 ---
 # File: install.yml - package installation tasks for Consul
 
+- name : display ansible_os_family 
+  debug:
+    msg :  "{{ ansible_os_family }} {{ ansible_facts['os_family'] }}"
+  tags: installation
+
+- name: run apt update for debian  
+  become: true
+  apt:
+     upgrade: true
+     update_cache: true
+  tags: installation
+  when: ansible_facts['os_family'] == "Debian" 
+
 - name: Install OS packages
   package:
     name: "{{ consul_os_packages }}"

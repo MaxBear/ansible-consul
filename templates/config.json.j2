@@ -23,13 +23,12 @@
     "advertise_addr": "{{ consul_advertise_address }}",
     "advertise_addr_wan": "{{ consul_advertise_address_wan }}",
     "translate_wan_addrs": {{ consul_translate_wan_address | bool | to_json }},
-    "client_addr": "{{ consul_client_address }}",
+    "client_addr": "0.0.0.0",
     "addresses": {
         {% if consul_version is version_compare('0.8.0', '<') %}
             "rpc": "{{ consul_addresses.rpc }}",
         {% endif %}
         "dns": "{{ consul_addresses.dns }}",
-        "http": "{{ consul_addresses.http }}",
         "https": "{{ consul_addresses.https }}",
         {% if consul_version is version_compare('1.3.0', '>=') %}
         "grpc": "{{ consul_addresses.grpc }}",

@@ -111,6 +111,10 @@
       changed_when: false
       register: consul_raw_key_file
 
+    - name: display temp file path for consul raw key file
+      debug:
+         msg : "{{ consul_raw_key_file.path }}" 
+
     # Key provided by extra vars or the above block
     - name: Write gossip encryption key locally for use with new servers
       copy:
@@ -137,9 +141,22 @@
             state: file
           register: gossip_key_tempfile
 
+        - name: display temp file path
+          debug:
+             msg : "{{ gossip_key_tempfile.path }}"
+
         - name: Generate gossip encryption key
-          shell: "PATH={{ consul_bin_path }}:$PATH consul keygen > {{ gossip_key_tempfile.path }}"
+          shell: "PATH={{ consul_bin_path }}:$PATH consul keygen"
           register: consul_keygen
+
+        - name: display consul keygen content 
+          debug: 
+             msg : "{{ consul_keygen }}"
+
+        - name: write to encryption key to temp file 
+          copy:
+             content: "{{ consul_keygen.stdout }}"
+             dest: "{{ gossip_key_tempfile.path }}"
 
         - name: Fetch key locally to share with other nodes
           become: false

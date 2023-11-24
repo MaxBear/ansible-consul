@@ -68,6 +68,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     consul1_config.vm.synced_folder ".", "/vagrant", disabled: true
     consul1_config.ssh.shell = "/bin/sh"
     consul1_config.vm.network :private_network, ip: "10.1.42.210"
+    consul1_config.vm.network "forwarded_port", guest: 8500, host: 8080
     consul1_config.vm.hostname = "consul1.consul"
     consul1_config.ssh.forward_agent = true
     consul1_config.vm.provider "virtualbox" do |v|
@@ -94,6 +95,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     consul2_config.vm.synced_folder ".", "/vagrant", disabled: true
     consul2_config.ssh.shell = "/bin/sh"
     consul2_config.vm.network :private_network, ip: "10.1.42.220"
+    consul2_config.vm.network "forwarded_port", guest: 8500, host: 8081
     consul2_config.vm.hostname = "consul2.consul"
     consul2_config.ssh.forward_agent = true
     consul2_config.vm.provider "virtualbox" do |v|
@@ -120,6 +122,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     consul3_config.vm.synced_folder ".", "/vagrant", disabled: true
     consul3_config.ssh.shell = "/bin/sh"
     consul3_config.vm.network :private_network, ip: "10.1.42.230"
+    consul3_config.vm.network :forwarded_port, guest: 8500, host: 8082
     consul3_config.vm.hostname = "consul3.consul"
     consul3_config.ssh.forward_agent = true
     consul3_config.vm.provider "virtualbox" do |v|
